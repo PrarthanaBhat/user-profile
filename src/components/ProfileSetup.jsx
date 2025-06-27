@@ -1,3 +1,4 @@
+// src/components/ProfileSetup.jsx
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -7,11 +8,26 @@ import Education from "./Education";
 import ReviewSubmit from "./ReviewSubmit";
 import ProfileSuccess from "./ProfileSuccess";
 import codes from "country-calling-code";
-import { Info } from "lucide-react"; 
+import { Info } from "lucide-react";
 import "../styles/ProfileSetup.css";
 import "../styles/ProgressBar.css";
 
+
+import { useDispatch, useSelector } from "react-redux";
+import {
+  updateBasicInfo,
+  nextStep,
+  setSubmitted,
+} from "../slices/profileSlice";
+
 const ProfileSetup = () => {
+  const dispatch = useDispatch();
+
+  // Redux States
+  const currentStep = useSelector((state) => state.profile.step);
+  const isSubmitted = useSelector((state) => state.profile.isSubmitted);
+  const basicInfo = useSelector((state) => state.profile.basicInfo);
+
   const {
     register,
     handleSubmit,
@@ -20,21 +36,12 @@ const ProfileSetup = () => {
 
   const [countryCodes, setCountryCodes] = useState([]);
   const [selectedCode, setSelectedCode] = useState("+91");
-const [showCityInfo, setShowCityInfo] = useState(false);
+  const [showCityInfo, setShowCityInfo] = useState(false);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [selectedState, setSelectedState] = useState("");
 
-  const [formData, setFormData] = useState({});
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const steps = [
-    "Basic Info",
-    "Work Experience",
-    "Education",
-    "Review & Submit",
-  ];
-  const [currentStep, setCurrentStep] = useState(0);
+  const steps = ["Basic Info", "Work Experience", "Education", "Review & Submit"];
 
   useEffect(() => {
     const formatted = codes
@@ -70,29 +77,18 @@ const [showCityInfo, setShowCityInfo] = useState(false);
   const onSubmit = (data) => {
     const fullPhone = `${selectedCode}${data.phone}`;
     const completeForm = { ...data, phone: fullPhone };
-    console.log("Submitted Data:", completeForm);
-    handleNext(completeForm);
-  };
 
-  const handleNext = (stepData) => {
-    if (stepData) {
-      setFormData((prev) => ({ ...prev, ...stepData }));
-    }
-    if (currentStep < steps.length - 1) {
-      setCurrentStep((prev) => prev + 1);
-    }
-  };
-
-  const handleBack = () => {
-    if (currentStep > 0) {
-      setCurrentStep((prev) => prev - 1);
-    }
+    dispatch(updateBasicInfo(completeForm));
+    dispatch(nextStep());
   };
 
   return (
     <>
       {isSubmitted ? (
-        <ProfileSuccess fullName={formData.fullName} email={formData.email} />
+        <ProfileSuccess
+          fullName={basicInfo.fullName}
+          email={basicInfo.email}
+        />
       ) : (
         <>
           <ProgressBar
@@ -217,42 +213,47 @@ const [showCityInfo, setShowCityInfo] = useState(false);
                       <span className="error">{errors.state.message}</span>
                     )}
                   </div>
-<div className="form-group">
-  <label className="with-icon">
-    City<span className="required">*</span>
-    {!selectedState && (
-      <span
-        className="info-icon"
-        onClick={() => setShowCityInfo((prev) => !prev)}
-      >
-        <Info size={16} color="#555" />
-      </span>
-    )}
-  </label>
 
-  <select
-    {...register("city", { required: "City is required" })}
-    disabled={!selectedState}
-  >
-    <option value="">
-      {selectedState ? "Select city" : "Select state first"}
-    </option>
-    {selectedState &&
-      cities.map((city, i) => (
-        <option key={i} value={city}>
-          {city}
-        </option>
-      ))}
-  </select>
+                  <div className="form-group">
+                    <label className="with-icon">
+                      City<span className="required">*</span>
+                      {!selectedState && (
+                        <span
+                          className="info-icon"
+                          onClick={() => setShowCityInfo((prev) => !prev)}
+                        >
+                          <Info size={16} color="#555" />
+                        </span>
+                      )}
+                    </label>
 
-  {showCityInfo && (
-    <div className="info-tooltip">Please select a state first to choose a city.</div>
-  )}
+                    <select
+                      {...register("city", {
+                        required: "City is required",
+                      })}
+                      disabled={!selectedState}
+                    >
+                      <option value="">
+                        {selectedState ? "Select city" : "Select state first"}
+                      </option>
+                      {selectedState &&
+                        cities.map((city, i) => (
+                          <option key={i} value={city}>
+                            {city}
+                          </option>
+                        ))}
+                    </select>
 
-  {errors.city && selectedState && (
-    <span className="error">{errors.city.message}</span>
-  )}
-</div>
+                    {showCityInfo && (
+                      <div className="info-tooltip">
+                        Please select a state first to choose a city.
+                      </div>
+                    )}
+
+                    {errors.city && selectedState && (
+                      <span className="error">{errors.city.message}</span>
+                    )}
+                  </div>
                 </div>
 
                 <div className="form-group full-width">
@@ -272,23 +273,10 @@ const [showCityInfo, setShowCityInfo] = useState(false);
             </div>
           )}
 
-          {currentStep === 1 && (
-            <WorkExperience onNext={handleNext} onBack={handleBack} />
-          )}
-
-          {currentStep === 2 && (
-            <Education onNext={handleNext} onBack={handleBack} />
-          )}
-
+          {currentStep === 1 && <WorkExperience />}
+          {currentStep === 2 && <Education />}
           {currentStep === 3 && (
-            <ReviewSubmit
-              formData={formData}
-              onBack={handleBack}
-              onSubmit={(finalData) => {
-                console.log("Final Submit:", finalData);
-                setIsSubmitted(true);
-              }}
-            />
+            <ReviewSubmit onSubmitFinal={() => dispatch(setSubmitted(true))} />
           )}
         </>
       )}
