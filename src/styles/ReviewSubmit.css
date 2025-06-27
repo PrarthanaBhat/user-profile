@@ -1,0 +1,97 @@
+.resume-upload-section {
+  margin-bottom: 1.5rem;
+}
+
+.resume-label {
+  font-weight: 500;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.upload-box {
+  border: 1px dashed #ccc;
+  padding: 1rem;
+  text-align: center;
+  background: #fcfcfc;
+  border-radius: 6px;
+  position: relative;
+}
+
+.upload-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  color: #292666;
+}
+
+.format-hint {
+  font-size: 0.8rem;
+  color: #777;
+  margin-top: 8px;
+}
+
+.resume-preview {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  background-color: #f8f8f8;
+}
+
+.pdf-icon {
+  font-size: 1.8rem;
+  color: #d32f2f;
+}
+
+.resume-info {
+  flex-grow: 1;
+}
+
+.file-name {
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.file-size {
+  font-size: 0.85rem;
+  color: #777;
+}
+
+.delete-file {
+  background: transparent;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #292666;
+}
+.review-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); 
+  gap: 1.5rem 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.review-field {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0; 
+}
+
+.field-value {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.field-label {
+  font-size: 0.85rem;
+  color: #777;
+  margin-top: 0.25rem;
+}
+

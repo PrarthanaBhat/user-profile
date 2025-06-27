@@ -1,0 +1,28 @@
+.success-container {
+  width: 640px;
+  height: 435px;
+  border-radius: 4px;
+  padding-bottom: 40px;
+  position: absolute;
+  top: 100px;
+  left: 400px;
+  background: linear-gradient(293.11deg, #B0F2BF 7.25%, #DBF0DD 80.74%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.success-container h2 {
+  margin-top: 20px;
+  font-size: 24px;
+  color: #2d7a3e;
+}
+
+.success-container p {
+  margin-top: 10px;
+  max-width: 80%;
+  font-size: 16px;
+  color: #444;
+}

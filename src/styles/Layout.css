@@ -1,0 +1,13 @@
+/* src/components/Layout.css */
+.layout {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+.main-content {
+  flex-basis: 85%;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  overflow-y: auto;
+}

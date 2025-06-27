@@ -1,0 +1,56 @@
+.form-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.toggle-buttons{
+display:flex;
+gap:20px;
+}
+.form-row {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.form-actions.full-width {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 2rem;
+}
+
+.back-btn,
+.next-btn {
+  padding: 0.5rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.back-btn {
+  background-color: #ccc;
+  color: #000;
+}
+
+.next-btn {
+  background-color: #292666;
+  color: #fff;
+}
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
+.navigation-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 32px;
+}

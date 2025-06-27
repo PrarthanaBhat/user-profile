@@ -1,0 +1,9 @@
+/* src/components/Sidebar.css */
+.sidebar {
+  flex-basis: 15%;
+  background-color: #1e2353;
+  color: white;
+  padding: 2rem 1rem;
+  height: 100vh;
+  box-sizing: border-box;
+}
