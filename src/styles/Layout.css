@@ -1,13 +1,55 @@
-/* src/components/Layout.css */
+/* src/styles/Layout.css */
+
 .layout {
   display: flex;
   height: 100vh;
   width: 100vw;
 }
 
+.content-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.header-strip {
+  height: 60px;
+  background-color: #ffffff;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  font-size: 14px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  color:gray;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-icon {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  color:gray;
+}
+
+.header-icon:hover {
+  transform: scale(1.1);
+}
+
 .main-content {
-  flex-basis: 85%;
-  padding: 1rem;
-  background-color: #f9f9f9;
-  overflow-y: auto;
+ flex: 1;
+    padding: 1rem;
+    background-color: #ffffff;
+    overflow-y: auto;
 }

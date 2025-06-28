@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "../styles/ProfileSetup.css";
+//import "../styles/ProfileSetup.css";
 import "../styles/ReviewSubmit.css";
 
 const ReviewSubmit = ({ formData, onBack, onSubmit }) => {
@@ -182,29 +182,33 @@ const ReviewSubmit = ({ formData, onBack, onSubmit }) => {
           </div>
         </div>
       </div>
+<div className="submit-row">
+  <div className="checkbox-inline">
+  <input
+    type="checkbox"
+    id="agree"
+    checked={agree}
+    onChange={() => setAgree(!agree)}
+  />
+  <label htmlFor="agree">Yes, I’ve checked the above data</label>
+</div>
 
-      <div className="checkbox-section">
-        <input
-          type="checkbox"
-          id="agree"
-          checked={agree}
-          onChange={() => setAgree(!agree)}
-        />
-        <label htmlFor="agree">Yes, I’ve checked the above data</label>
-      </div>
 
-      <div className="navigation-buttons">
-        <button className="back-btn" onClick={onBack}>
-          Back
-        </button>
-        <button
-          className="next-btn"
-          disabled={!agree || !resumeFile}
-          onClick={handleSubmit}
-        >
-          Submit
-        </button>
-      </div>
+
+  <div className="navigation-buttons">
+    <button className="back-btn" onClick={onBack}>
+      Back
+    </button>
+    <button
+      className="next-btn"
+      disabled={!agree || !resumeFile}
+      onClick={handleSubmit}
+    >
+      Submit
+    </button>
+  </div>
+</div>
+
     </div>
   );
 };

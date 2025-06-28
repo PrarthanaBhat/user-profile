@@ -3,6 +3,7 @@ import { useState } from "react";
 import '../styles/WorkExperience.css';
 
 const WorkExperience = ({ onNext, onBack }) => {
+
   const { register, handleSubmit, formState: { errors }, watch } = useForm();
   const [isFresher, setIsFresher] = useState(false);
 

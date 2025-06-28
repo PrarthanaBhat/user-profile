@@ -1,7 +1,7 @@
 .education-container {
   background-color: #ffffff;
-  padding: 40px;
-  margin: 20px auto;
+  padding: 2.5rem;
+  margin: 1.5rem auto;
   max-width: 800px;
   border-radius: 8px;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
@@ -13,58 +13,60 @@
 }
 
 .profile-header h2 {
-  font-size: 24px;
+  font-size: 1.5rem;
   font-weight: 600;
   color: #1c1c1c;
-  margin-bottom: 8px;
+  margin-bottom: 0.5rem;
 }
 
 .profile-header p {
-  font-size: 14px;
+  font-size: 0.875rem;
   color: #6c757d;
 }
 
 .form-grid {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 1.5rem;
 }
 
 .education-group {
-  padding: 24px;
+  padding: 1.5rem;
+  background-color: #fafafa;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
-  background-color: #fafafa;
 }
 
 .input-row {
   display: flex;
-  gap: 16px;
-  margin-top: 16px;
+  gap: 1rem;
+  margin-top: 1rem;
+  flex-wrap: wrap;
 }
 
 .input-column {
   flex: 1;
   display: flex;
   flex-direction: column;
+  min-width: 240px;
 }
 
 label {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
-  margin-bottom: 4px;
+  margin-bottom: 0.25rem;
   color: #333;
 }
 
-input,
+/* input,
 select {
-  padding: 10px 12px;
-  font-size: 14px;
+  padding: 0.625rem 0.75rem;
+  font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 6px;
-  outline: none;
   background-color: #fff;
-}
+  outline: none;
+} */
 
 input:focus,
 select:focus {
@@ -74,22 +76,22 @@ select:focus {
 
 .error {
   color: #e53935;
-  font-size: 12px;
-  margin-top: 4px;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
 }
 
 .add-btn {
-  padding: 10px 14px;
+  margin-left: auto;
+  display: block;
+  padding: 0.625rem 0.875rem;
   background-color: #ffffff;
   border: 1px solid #999;
   border-radius: 6px;
-  font-size: 14px;
+  font-size: 0.875rem;
   cursor: pointer;
-  width: fit-content;
   color: #333;
   transition: background-color 0.2s ease;
-  margin-left: auto;
-  display: block;
+  width: fit-content;
 }
 
 .add-btn:hover {
@@ -99,13 +101,13 @@ select:focus {
 .navigation-buttons {
   display: flex;
   justify-content: space-between;
-  margin-top: 32px;
+  margin-top: 2rem;
 }
 
 .back-btn,
 .next-btn {
-  padding: 12px 28px;
-  font-size: 14px;
+  padding: 0.75rem 1.75rem;
+  font-size: 0.875rem;
   font-weight: 500;
   border: none;
   border-radius: 6px;
@@ -128,8 +130,9 @@ select:focus {
 }
 
 .next-btn:hover {
-  background-color: #292666;
+  background-color: #1f1c50;
 }
+
 .education-section {
   border-radius: 8px;
   background-color: #f9f9fb;
@@ -147,11 +150,11 @@ select:focus {
 
 .education-summary strong {
   font-weight: 600;
-  font-size: 15px;
+  font-size: 0.9375rem;
 }
 
 .education-years {
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: #666;
 }
 
@@ -160,19 +163,19 @@ select:focus {
   gap: 0.5rem;
 }
 
-.arrow-btn {
+.arrow-btn,
+.delete-btn {
   background: none;
   border: none;
-  font-size: 16px;
+  font-size: 1rem;
   cursor: pointer;
+}
+
+.arrow-btn {
   color: #444;
 }
 
 .delete-btn {
-  background: none;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
   color: #b00020;
 }
 
@@ -181,45 +184,3 @@ select:focus {
   border-top: 1px solid #eee;
   padding-top: 1rem;
 }
-
-.input-row {
-  display: flex;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.input-column {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-label {
-  font-weight: 500;
-  margin-bottom: 4px;
-}
-
-input, select {
-  padding: 0.5rem;
-  font-size: 1rem;
-}
-
-.error {
-  color: red;
-  font-size: 0.85rem;
-}
-
-.add-btn {
-  margin-left: auto;
-  display: block;
-  padding: 10px 14px;
-  background-color: #ffffff;
-  border: 1px solid #999;
-  border-radius: 6px;
-  font-size: 14px;
-  cursor: pointer;
-  width: fit-content;
-  color: #333;
-  transition: background-color 0.2s ease;
-}
-

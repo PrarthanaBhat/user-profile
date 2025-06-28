@@ -1,7 +1,6 @@
-// src/components/ProfileSetup.jsx
 import { useForm } from "react-hook-form";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ProgressBar from "./ProgressBar";
 import WorkExperience from "./WorkExperience";
 import Education from "./Education";
@@ -12,18 +11,16 @@ import { Info } from "lucide-react";
 import "../styles/ProfileSetup.css";
 import "../styles/ProgressBar.css";
 
-
 import { useDispatch, useSelector } from "react-redux";
 import {
   updateBasicInfo,
   nextStep,
+  prevStep,
   setSubmitted,
 } from "../slices/profileSlice";
 
 const ProfileSetup = () => {
   const dispatch = useDispatch();
-
-  // Redux States
   const currentStep = useSelector((state) => state.profile.step);
   const isSubmitted = useSelector((state) => state.profile.isSubmitted);
   const basicInfo = useSelector((state) => state.profile.basicInfo);
@@ -31,26 +28,31 @@ const ProfileSetup = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-  } = useForm();
+    formState: { errors, isValid },
+  } = useForm({ mode: "onBlur" });
 
-  const [countryCodes, setCountryCodes] = useState([]);
   const [selectedCode, setSelectedCode] = useState("+91");
   const [showCityInfo, setShowCityInfo] = useState(false);
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [selectedState, setSelectedState] = useState("");
 
-  const steps = ["Basic Info", "Work Experience", "Education", "Review & Submit"];
+  const [combinedFormData, setCombinedFormData] = useState({});
 
-  useEffect(() => {
-    const formatted = codes
+  const steps = [
+    "Basic Info",
+    "Work Experience",
+    "Education",
+    "Review & Submit",
+  ];
+
+  const countryCodes = useMemo(() => {
+    return codes
       .map((c) => ({
         name: c.country,
         code: "+" + c.countryCodes[0],
       }))
       .sort((a, b) => a.name.localeCompare(b.name));
-    setCountryCodes(formatted);
   }, []);
 
   useEffect(() => {
@@ -78,17 +80,28 @@ const ProfileSetup = () => {
     const fullPhone = `${selectedCode}${data.phone}`;
     const completeForm = { ...data, phone: fullPhone };
 
+    setCombinedFormData((prev) => ({
+      ...prev,
+      ...completeForm,
+    }));
+
     dispatch(updateBasicInfo(completeForm));
     dispatch(nextStep());
+  };
+
+  const handleBack = () => {
+    dispatch(prevStep()); //->  Go back a step using Redux with preStep
+  };
+
+  const handleFinalSubmit = (finalData) => {
+    console.log("Final submitted data:", finalData);
+    dispatch(setSubmitted()); // Form submitted, setting up the flag for isSubmitted and check for submit, once submitted show the success page!
   };
 
   return (
     <>
       {isSubmitted ? (
-        <ProfileSuccess
-          fullName={basicInfo.fullName}
-          email={basicInfo.email}
-        />
+        <ProfileSuccess fullName={basicInfo.fullName} email={basicInfo.email} />
       ) : (
         <>
           <ProgressBar
@@ -103,7 +116,9 @@ const ProfileSetup = () => {
                 <h2 className="profile-title">Basic Information</h2>
                 <p>Let's start with the essentials.</p>
               </div>
+
               <form onSubmit={handleSubmit(onSubmit)} className="form-grid">
+                {/* Row 1 */}
                 <div className="form-row">
                   <div className="form-group">
                     <label>
@@ -145,15 +160,10 @@ const ProfileSetup = () => {
                     <label>
                       Phone number<span className="required">*</span>
                     </label>
-                    <div style={{ display: "flex", gap: "0.5rem" }}>
+                    <div className="phone-wrapper">
                       <select
                         value={selectedCode}
                         onChange={(e) => setSelectedCode(e.target.value)}
-                        style={{
-                          width: "110px",
-                          fontSize: "1rem",
-                          padding: "0.4rem",
-                        }}
                       >
                         {countryCodes.map((c, i) => (
                           <option key={i} value={c.code}>
@@ -201,6 +211,7 @@ const ProfileSetup = () => {
                     <select
                       {...register("state", { required: "State is required" })}
                       onChange={(e) => setSelectedState(e.target.value)}
+                      defaultValue=""
                     >
                       <option value="">Select</option>
                       {states.map((state, i) => (
@@ -228,10 +239,9 @@ const ProfileSetup = () => {
                     </label>
 
                     <select
-                      {...register("city", {
-                        required: "City is required",
-                      })}
+                      {...register("city", { required: "City is required" })}
                       disabled={!selectedState}
+                      defaultValue=""
                     >
                       <option value="">
                         {selectedState ? "Select city" : "Select state first"}
@@ -249,7 +259,6 @@ const ProfileSetup = () => {
                         Please select a state first to choose a city.
                       </div>
                     )}
-
                     {errors.city && selectedState && (
                       <span className="error">{errors.city.message}</span>
                     )}
@@ -265,18 +274,45 @@ const ProfileSetup = () => {
                 </div>
 
                 <div className="form-actions full-width">
-                  <button type="submit" className="next-btn">
+                  <button
+                    type="submit"
+                    className="next-btn"
+                    disabled={!isValid}
+                  >
                     Next
                   </button>
                 </div>
               </form>
             </div>
           )}
+          {currentStep === 1 && (
+            <WorkExperience
+              onNext={(data) => {
+                setCombinedFormData((prev) => ({ ...prev, ...data }));
+                dispatch(nextStep());
+              }}
+              onBack={handleBack}
+            />
+          )}
+          {currentStep === 2 && (
+            <Education
+              onNext={(data) => {
+                setCombinedFormData((prev) => ({
+                  ...prev,
+                  education: data.education,
+                }));
+                dispatch(nextStep());
+              }}
+              onBack={handleBack}
+            />
+          )}
 
-          {currentStep === 1 && <WorkExperience />}
-          {currentStep === 2 && <Education />}
           {currentStep === 3 && (
-            <ReviewSubmit onSubmitFinal={() => dispatch(setSubmitted(true))} />
+            <ReviewSubmit
+              formData={combinedFormData}
+              onBack={handleBack}
+              onSubmit={handleFinalSubmit}
+            />
           )}
         </>
       )}

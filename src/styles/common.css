@@ -1,0 +1,154 @@
+/* Typography */
+body {
+  font-family: 'Inter', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 14px;
+  color: #1c1c1c;
+  background-color: #f8f9fb;
+  margin: 0;
+  padding: 0;
+}
+
+h1, h2, h3, h4, h5 {
+  font-weight: 600;
+  color: #1c1c1c;
+  margin: 0 0 0.5rem 0;
+}
+
+p {
+  color: #6c757d;
+  font-size: 14px;
+  margin: 0.25rem 0 1rem;
+}
+
+/* Form Controls */
+input,
+select,
+textarea {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #d6d6d6;
+  border-radius: 6px;
+  background-color: #fff;
+  color: #1c1c1c;
+  outline: none;
+  box-sizing: border-box;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #6849ff;
+  box-shadow: 0 0 0 2px rgba(104, 73, 255, 0.15);
+}
+
+/* Labels */
+label {
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  display: inline-block;
+  color: #1c1c1c;
+}
+
+/* Required Field Indicator */
+label .required {
+  color: #e53935;
+  margin-left: 2px;
+}
+
+/* Error Text */
+.error {
+  font-size: 12px;
+  color: #e53935;
+  margin-top: 4px;
+}
+
+/* Form Layout */
+.form-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 250px;
+}
+
+/* Buttons */
+button {
+  font-size: 14px;
+  font-weight: 500;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.next-btn {
+  background-color: #292666;
+  color: #fff;
+  padding: 0.75rem 2rem;
+  transition: background-color 0.3s ease;
+}
+
+.next-btn:hover {
+  background-color: #1f1c50;
+}
+
+.back-btn {
+  background-color: #fff;
+  color: #1c1c1c;
+  border: 1px solid #d6d6d6;
+  padding: 0.75rem 2rem;
+}
+
+.back-btn:hover {
+  background-color: #f0f0f0;
+}
+
+/* Tooltips and Info Icons */
+.info-icon {
+  margin-left: 6px;
+  color: #999;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.info-tooltip {
+  background-color: #f5f5f5;
+  border-left: 4px solid #999;
+  padding: 0.5rem 0.75rem;
+  font-size: 13px;
+  border-radius: 4px;
+  margin-top: 0.4rem;
+  color: #333;
+}
+
+/* Page Container */
+.page-container {
+  max-width: 960px;
+  margin: auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+/* Progress Step Styles (if using a custom progress bar) */
+.progress-step {
+  color: #292666;
+  font-weight: 500;
+}

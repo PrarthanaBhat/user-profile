@@ -1,4 +1,5 @@
 import { useForm, useFieldArray } from "react-hook-form";
+import { useMemo } from "react";
 import "../styles/Education.css";
 
 const Education = ({ onNext, onBack }) => {
@@ -26,6 +27,19 @@ const Education = ({ onNext, onBack }) => {
     name: "education",
   });
 
+  const yearOptions = useMemo(() => {
+    const currentYear = new Date().getFullYear();
+    return Array.from({ length: 30 }, (_, i) => currentYear - i);
+  }, []);
+
+  const newEducationEntry = {
+    degree: "",
+    institute: "",
+    location: "",
+    startYear: "",
+    endYear: "",
+  };
+
   const onSubmit = (data) => {
     console.log("Education:", data);
     onNext(data);
@@ -51,14 +65,16 @@ const Education = ({ onNext, onBack }) => {
                   type="button"
                   className="delete-btn"
                   onClick={() => remove(index)}
+                  aria-label={`Remove Education ${index + 1}`}
                 >
                   &times;
                 </button>
               )}
             </div>
 
-            <label>Degree</label>
+            <label htmlFor={`degree-${index}`}>Degree</label>
             <select
+              id={`degree-${index}`}
               {...register(`education.${index}.degree`, { required: true })}
             >
               <option value="">Select degree</option>
@@ -73,8 +89,9 @@ const Education = ({ onNext, onBack }) => {
 
             <div className="input-row">
               <div className="input-column">
-                <label>Institute name</label>
+                <label htmlFor={`institute-${index}`}>Institute name</label>
                 <input
+                  id={`institute-${index}`}
                   type="text"
                   {...register(`education.${index}.institute`, {
                     required: true,
@@ -87,8 +104,9 @@ const Education = ({ onNext, onBack }) => {
               </div>
 
               <div className="input-column">
-                <label>Location</label>
+                <label htmlFor={`location-${index}`}>Location</label>
                 <input
+                  id={`location-${index}`}
                   type="text"
                   {...register(`education.${index}.location`, {
                     required: true,
@@ -100,44 +118,57 @@ const Education = ({ onNext, onBack }) => {
                 )}
               </div>
             </div>
-
             <div className="input-row">
               <div className="input-column">
-                <label>Start year</label>
+                <label htmlFor={`startYear-${index}`}>Start year</label>
                 <select
+                  id={`startYear-${index}`}
                   {...register(`education.${index}.startYear`, {
-                    required: true,
+                    required: "Start year is required",
                   })}
                 >
                   <option value="">Start year</option>
-                  {Array.from({ length: 30 }, (_, i) => {
-                    const year = new Date().getFullYear() - i;
-                    return (
-                      <option key={year} value={year}>
-                        {year}
-                      </option>
-                    );
-                  })}
+                  {yearOptions.map((year) => (
+                    <option key={year} value={year}>
+                      {year}
+                    </option>
+                  ))}
                 </select>
+                {errors.education?.[index]?.startYear && (
+                  <span className="error">
+                    {errors.education[index].startYear.message}
+                  </span>
+                )}
               </div>
 
               <div className="input-column">
-                <label>End year</label>
+                <label htmlFor={`endYear-${index}`}>End year</label>
                 <select
+                  id={`endYear-${index}`}
                   {...register(`education.${index}.endYear`, {
-                    required: true,
+                    required: "End year is required",
+                    validate: (endYear, values) => {
+                      const startYear = values.education?.[index]?.startYear;
+                      if (!startYear || !endYear) return true;
+                      return (
+                        parseInt(endYear) >= parseInt(startYear) ||
+                        "End year cannot be before Start year"
+                      );
+                    },
                   })}
                 >
                   <option value="">End year</option>
-                  {Array.from({ length: 30 }, (_, i) => {
-                    const year = new Date().getFullYear() - i;
-                    return (
-                      <option key={year} value={year}>
-                        {year}
-                      </option>
-                    );
-                  })}
+                  {yearOptions.map((year) => (
+                    <option key={year} value={year}>
+                      {year}
+                    </option>
+                  ))}
                 </select>
+                {errors.education?.[index]?.endYear && (
+                  <span className="error">
+                    {errors.education[index].endYear.message}
+                  </span>
+                )}
               </div>
             </div>
           </div>
@@ -146,15 +177,7 @@ const Education = ({ onNext, onBack }) => {
         <button
           type="button"
           className="add-btn"
-          onClick={() =>
-            append({
-              degree: "",
-              institute: "",
-              location: "",
-              startYear: "",
-              endYear: "",
-            })
-          }
+          onClick={() => append(newEducationEntry)}
         >
           + Add education
         </button>

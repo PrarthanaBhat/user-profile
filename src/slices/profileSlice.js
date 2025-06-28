@@ -29,8 +29,9 @@ const profileSlice = createSlice({
       state.step -= 1;
     },
     resetProfile: () => initialState,
-    setSubmitted: (state, action) => {
-      state.isSubmitted = action.payload;
+
+     setSubmitted: (state) => {
+      state.isSubmitted = true;
     },
   },
 });
