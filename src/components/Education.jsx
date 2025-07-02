@@ -1,24 +1,32 @@
 import { useForm, useFieldArray } from "react-hook-form";
 import { useMemo } from "react";
 import "../styles/Education.css";
+import { useDispatch, useSelector } from "react-redux";
+import { updateEducation } from "../slices/profileSlice";
 
 const Education = ({ onNext, onBack }) => {
+  const dispatch = useDispatch();
+  const education = useSelector((state) => state.profile.education);
+
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
+    getValues,
   } = useForm({
     defaultValues: {
-      education: [
-        {
-          degree: "",
-          institute: "",
-          location: "",
-          startYear: "",
-          endYear: "",
-        },
-      ],
+      education: education.length
+        ? education
+        : [
+            {
+              degree: "",
+              institute: "",
+              location: "",
+              startYear: "",
+              endYear: "",
+            },
+          ],
     },
   });
 
@@ -40,8 +48,13 @@ const Education = ({ onNext, onBack }) => {
     endYear: "",
   };
 
+  const onBackClick = () => {
+    dispatch(updateEducation(getValues().education)); 
+    onBack();
+  };
+
   const onSubmit = (data) => {
-    console.log("Education:", data);
+    dispatch(updateEducation(data.education)); 
     onNext(data);
   };
 
@@ -118,6 +131,7 @@ const Education = ({ onNext, onBack }) => {
                 )}
               </div>
             </div>
+
             <div className="input-row">
               <div className="input-column">
                 <label htmlFor={`startYear-${index}`}>Start year</label>
@@ -183,7 +197,7 @@ const Education = ({ onNext, onBack }) => {
         </button>
 
         <div className="navigation-buttons">
-          <button type="button" className="back-btn" onClick={onBack}>
+          <button type="button" className="back-btn" onClick={onBackClick}>
             Back
           </button>
           <button type="submit" className="next-btn">

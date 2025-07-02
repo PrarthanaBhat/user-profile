@@ -1,4 +1,3 @@
-// src/slices/profileSlice.js
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
@@ -6,7 +5,7 @@ const initialState = {
   isSubmitted: false,
   basicInfo: {},
   workExperience: {},
-  education: {},
+  education: [],
 };
 
 const profileSlice = createSlice({
@@ -14,10 +13,10 @@ const profileSlice = createSlice({
   initialState,
   reducers: {
     updateBasicInfo: (state, action) => {
-      state.basicInfo = action.payload;
+      state.basicInfo = { ...state.basicInfo, ...action.payload };
     },
     updateWorkExperience: (state, action) => {
-      state.workExperience = action.payload;
+      state.workExperience = { ...state.workExperience, ...action.payload };
     },
     updateEducation: (state, action) => {
       state.education = action.payload;
@@ -28,9 +27,7 @@ const profileSlice = createSlice({
     prevStep: (state) => {
       state.step -= 1;
     },
-    resetProfile: () => initialState,
-
-     setSubmitted: (state) => {
+    setSubmitted: (state) => {
       state.isSubmitted = true;
     },
   },
@@ -42,7 +39,6 @@ export const {
   updateEducation,
   nextStep,
   prevStep,
-  resetProfile,
   setSubmitted,
 } = profileSlice.actions;
 

@@ -28,8 +28,18 @@ const ProfileSetup = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
-  } = useForm({ mode: "onBlur" });
+    formState: { errors },
+    setValue,
+  } = useForm({
+    mode: "onChange",
+    defaultValues: basicInfo,
+  });
+
+  useEffect(() => {
+    Object.entries(basicInfo).forEach(([key, value]) => {
+      setValue(key, value);
+    });
+  }, [basicInfo, setValue]);
 
   const [selectedCode, setSelectedCode] = useState("+91");
   const [showCityInfo, setShowCityInfo] = useState(false);
@@ -277,7 +287,7 @@ const ProfileSetup = () => {
                   <button
                     type="submit"
                     className="next-btn"
-                    disabled={!isValid}
+                    
                   >
                     Next
                   </button>
